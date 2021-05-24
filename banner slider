@@ -1,0 +1,52 @@
+{{{ Banner Slider }}}
+
+Banner Slider( Repeater )
+  Slide ( Image )
+  Slide Title ( Text )
+  Slide Subtitle ( Text )
+  Slide Description ( Textarea )
+  Slide Button ( Link )
+
+{{{ /Banner Slider }}}
+
+
+<div class="sslider banner-slider no-arrows">
+				<?php while( have_rows('banner_slider') ): the_row(); ?>
+					<div class="slide">
+						<?php $hero_banner = get_sub_field('slide_image');
+			            if( !empty( $hero_banner ) ): ?>
+							<figure>
+								<img src="<?php echo $hero_banner['url']; ?>" alt="<?php echo esc_attr($hero_banner['alt']); ?>" >
+							</figure>
+						<?php endif; ?>
+						<div class="content">
+							<h2 class="title"><span class="upcase font26 bold sub-head white-text"><?php the_sub_field('slide_subtitle'); ?></span><b><?php the_sub_field('slide_title'); ?></b></h2>
+							<p class="desc"><?php the_sub_field('slide_description'); ?></p>
+							<?php 
+		                    $link = get_sub_field('slide_button');
+		                    if( $link ): 
+		                    $link_url = $link['url'];
+		                    $link_title = $link['title'];
+		                    $link_target = $link['target'] ? $link['target'] : '_self';
+		                    ?>
+		                    <a class="button" href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>"><?php echo esc_html( $link_title ); ?></a>
+		                    <?php endif; ?>
+	                	</div>
+					</div>
+				<?php endwhile; ?>
+			</div>
+      
+      
+     
+/*------------------------------------------------ Slider JS ---------------------------------------------*/
+
+$('.sslider').each(function(){
+  if($(this).find('.slide').length > 1){
+    $(this).slick({ slidesToShow: 1, infinite: true, arrows: true, dots: true, slidesToScroll: 1,
+      prevArrow: '<div class="slick-arrow arrow-button-notext good-reads-prev"><span></span></button>',
+        nextArrow: '<div class="slick-arrow arrow-button-notext good-reads-next"><span></span></button>',
+    });
+  }
+});
+
+/*------------------------------------------------ Slider JS Ends ---------------------------------------------*/
