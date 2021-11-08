@@ -1,0 +1,2 @@
+For host site on local MAC
+% sudo nano /etc/hosts
