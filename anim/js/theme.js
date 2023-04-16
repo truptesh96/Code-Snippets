@@ -33,6 +33,27 @@ jQuery(function($) {
 	});
 
 
+	$('.wordFill p').each(function(){
+	    var words = jQuery(this).text().split(' ');
+	        jQuery(this).empty().html(function() {
+	            for (i = 0; i < words.length; i++) {
+	                if (i == 0) {
+	                    jQuery(this).append('<span>' + words[i] + '</span>');
+	                } else {
+	                    jQuery(this).append(' <span>' + words[i] + '</span>');
+	                }
+	            }
+	        });
+	  });
+
+
+	ScrollOut({ scrollingElement:'.wordFill', 
+		targets: '.wordFill p', cssProps:true,
+	    onShown(el) { el.classList.add("in"); },
+	    onHidden(el) { el.classList.remove("in"); },
+	});
+
+
 	ScrollOut({ scrollingElement:'.stickySnaps', 
 		targets: '.snapItem', cssProps:true, offset: 1,
 	    onShown(el) { el.classList.add("in"); },
@@ -53,12 +74,9 @@ jQuery(function($) {
         	}
 		});
 
-
 		$('.stickySnaps').each(function(){
 			$(this).find('.dataRow').eq($(this).find('.snapItem.isActive').index()).addClass('isActive').siblings('.dataRow').removeClass('isActive');
 		});
-
-
 
 	});
 
