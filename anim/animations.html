@@ -7,7 +7,7 @@
 	<script src="js/slick.js"></script>
 	<script src="js/theme.js"></script>
 
-
+ 
 	<style type="text/css">
 		body { margin: 0; padding: 0; }
 		.fadeSlides .sslide { height: 100vh; width: 100%; }
@@ -23,9 +23,10 @@
 
 
 		.stickySnaps .inWrap { align-items: flex-start; }
-		.stickySnaps .left { position: sticky; top: 0; left: 0; }
-
-		.snapItems .snapItem{  position: sticky; left: 0; height: 100vh; top: 0; transition: .7s ease; }
+		.stickySnaps .left { position: sticky; top: 0; left: 0; display: grid; min-height: 100vh; }
+		.stickySnaps .dataRow { opacity: 0.25; transition: .5s ease; display: flex; align-items: center; }
+		.stickySnaps .dataRow.isActive { opacity: 1; }
+		.snapItems .snapItem{  position: sticky; left: 0; height: 100vh; top: 0; transition: .7s ease; filter: sepia(.5) invert(1);}
 
 	</style>
 
@@ -42,6 +43,7 @@
 				<div class="sslide"><div class="contWrap">Slide2</div></div>
 				<div class="sslide"><div class="contWrap">Slide3</div></div>
 				<div class="sslide"><div class="contWrap">Slide4</div></div>
+				<div class="sslide"><div class="contWrap">Slide5</div></div>
 			</div>
 		</div>
 		<div class="right">
@@ -50,20 +52,20 @@
 	      <div class="sslide"><div class="imgWrap"><img src="imgs/img2.jpg" ></div></div>
 	      <div class="sslide"><div class="imgWrap"><img src="imgs/img3.jpg" ></div></div>
 	      <div class="sslide"><div class="imgWrap"><img src="imgs/img4.jpg" ></div></div>
+	      <div class="sslide"><div class="imgWrap"><img src="imgs/img2.jpg" ></div></div>
 	    </div>
 	  	</div>
 	</div>
 	</section>
-	<section class="cBlock vh100 stickySnaps">
+	<section class="cBlock stickySnaps">
 
 		<div class="dflex inWrap">
 		<div class="left">
-			<div class="">
-				<div class="dataRow"><div class="contWrap">Slide1</div></div>
-				<div class=""><div class="contWrap">Slide2</div></div>
-				<div class=""><div class="contWrap">Slide3</div></div>
-				<div class=""><div class="contWrap">Slide4</div></div>
-			</div>
+			<div class="dataRow"><div class="contWrap">Slide1</div></div>
+			<div class="dataRow"><div class="contWrap">Slide2</div></div>
+			<div class="dataRow"><div class="contWrap">Slide3</div></div>
+			<div class="dataRow"><div class="contWrap">Slide4</div></div>
+			<div class="dataRow"><div class="contWrap">Slide5</div></div>	
 		</div>
 		<div class="right">
 			<div class="snapItems">
@@ -71,6 +73,7 @@
 		      <div class="snapItem"><div class="imgWrap"><img src="imgs/img2.jpg" ></div></div>
 		      <div class="snapItem"><div class="imgWrap"><img src="imgs/img3.jpg" ></div></div>
 		      <div class="snapItem"><div class="imgWrap"><img src="imgs/img4.jpg" ></div></div>
+		       <div class="snapItem"><div class="imgWrap"><img src="imgs/img2.jpg" ></div></div>
 		    </div>
 		  	</div>
 		</div>

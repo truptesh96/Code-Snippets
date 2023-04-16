@@ -33,9 +33,34 @@ jQuery(function($) {
 	});
 
 
-	ScrollOut({ targets: '.snapItem', 
-	    onShown(el) { el.classList.add("in"); threshold:1 },
-	    onHidden(el) { el.classList.remove("in"); threshold:-1 },
+	ScrollOut({ scrollingElement:'.stickySnaps', 
+		targets: '.snapItem', cssProps:true, offset: 1,
+	    onShown(el) { el.classList.add("in"); },
+	    onHidden(el) { el.classList.remove("in"); },
 	});
+
+	$(window).on('scroll', function(){
+		
+		$('.snapItem').each(function(){
+			var distTop = $(this).offset().top - $(window).scrollTop();
+        	$(this).attr('distTop', distTop);
+
+        	if($(this).attr('distTop') <= $(window).height()) {
+        		$(this).addClass('isActive');
+        		$(this).prev('.isActive').removeClass('isActive');
+        	}else {
+        		$(this).removeClass('isActive');
+        	}
+		});
+
+
+		$('.stickySnaps').each(function(){
+			$(this).find('.dataRow').eq($(this).find('.snapItem.isActive').index()).addClass('isActive').siblings('.dataRow').removeClass('isActive');
+		});
+
+
+
+	});
+
 
 });
