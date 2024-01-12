@@ -1,4 +1,4 @@
-/* Theme Option */
+{{{ Theme Options }}}
 if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page(array(
 		'page_title' 	=> 'Theme General Settings',
@@ -31,7 +31,24 @@ if( function_exists('acf_add_options_page') ) {
 		'redirect'		=> false
 	));
 }
+{{{ /Theme Options }}}
 
+{{{ ACF Color Picker Options }}}
+function lsq_acf_input_admin_footer() { ?>
+	<script type="text/javascript">
+		(function($) {
+			acf.add_filter('color_picker_args', function( args, $field ){
+				args.palettes = [
+					'#667DB7',
+					'#5FB77B',
+					'#EC8B6B']
+				return args;
+			});
+		})(jQuery);
+	</script><?php 
+}
+add_action('acf/input/admin_footer', 'lsq_acf_input_admin_footer');
+{{{ /ACF Color Picker Options }}}
 
 {{{ Changing Forgot password page Title }}}
 
@@ -45,6 +62,28 @@ add_filter( 'the_title', 'change_forgot_password_title', 10, 2 );
 
 {{{ /Changing Forgot password page Title }}}
 
+
+{{{ Forgot Password Form }}}
+function my_custom_password_form() {
+		global $post;
+		$label = 'pwbox-' . ( empty( $post->ID ) ? rand() : $post->ID );
+		$output = '
+		<div class="boldgrid-section">
+			<div class="container">
+				<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="form-inline post-password-form" method="post">
+					
+					<h2 class="font24 head">' . __( 'This content is password protected. <br/>To view it please enter your password below:' ) . '</h2>
+					<div class="dflex">
+					<input placeholder="Enter Password" name="post_password" id="' . $label . '" type="password" size="20" class="form-control" /><button type="submit" name="Submit" class="btn gformButton">' . esc_attr_x( 'Enter', 'post password form' ) . '</button></div>
+					
+				</form>
+			</div>
+		</div>';
+	return $output;
+}
+add_filter('the_password_form', 'my_custom_password_form', 99);
+{{{ /Forgot Password Form }}}
+ 
 
 
 //Remove Gutenberg Block Library CSS from loading on the frontend
