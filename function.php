@@ -145,3 +145,14 @@ add_filter( 'woocommerce_enqueue_styles', '__return_false' );
 add_filter( 'woocommerce_gallery_thumbnail_size', function( $size ) { return 'full'; } );
 add_filter( 'woocommerce_product_description_heading', '__return_null' );
 add_filter( 'woocommerce_product_reviews_heading', '__return_null' );
+
+
+
+// Hook For converting Gravity Form submit input to Button
+add_filter( 'gform_submit_button', 'form_submit_button', 10, 2 );
+function form_submit_button( $button, $form ) {
+    $formID = 'submitIDarw'.$form['id'];
+    $arrowHTML = '<span class="arrowIcon"><svg viewBox="0 0 55 55" version="1.1" height="55" width="55" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><defs><mask id="'.$formID.'"><path transform="translate(0.000000, -0.805443)" d="M0.61384,1.56259302 C12.8982633,13.7875859 29.147553,30.0329294 49.3617089,50.2986233 C45.2447981,42.1633 42.6012642,35.4055475 41.4311073,30.0253656 C39.6758718,21.9550929 42.3161064,9.11081066 43.556567,4.97518359 C44.7970276,0.83955651 52.7707887,-5.01656182 52.7707887,0.218989163 C52.7707887,3.70935648 52.7401709,21.5496784 52.6789352,53.739955 L0.61384,53.2324435 C-11.6705833,6.56088358 -11.6705833,-10.6623999 0.61384,1.56259302 Z" stroke="#ffffff" stroke-width="4" stroke-linejoin="round" class="mask"></path></mask></defs> <g fill="#fff" fill-rule="nonzero" mask="url(#'.$formID.')" class="arrow-thin"><polygon points="53.67518 0.75715 53.717 53.86178 0.61384 53.81848 0.6149 51.4874 49.73851 51.52698 1.4953 2.9774 3.14855 1.33461 51.38367 49.87752 51.34409 0.75821"></polygon></g></g></g></svg></span>';
+    
+    return "<button class='button themeButton gformButton' id='gform_submit_button_{$form['id']}'><span class='text upcase'>{$form['button']['text']}</span>".$arrowHTML."</button>";
+}
