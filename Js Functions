@@ -1,0 +1,19 @@
+** Gravity Forms **
+
+/*---------------------------- Future dates are not allowed ---------------------------------*/
+jQuery(document).ready(function($) {
+    $('#input_3_11').on('change', function() {
+        var currentDate = new Date(); var selectedDate = new Date($(this).val());
+        
+        if (selectedDate > currentDate) {
+            $(this).val('');
+            alert('Invalid Date. Future dates are not allowed to select for DOB!')
+        }
+    });
+});
+/*---------------------------- Future dates are not allowed Ends ---------------------------------*/
+
+
+
+
+
