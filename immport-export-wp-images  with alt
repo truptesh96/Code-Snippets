@@ -1,0 +1,143 @@
+// Export import images data 
+ 
+// Add Menu items in WP Dashboard
+function media_details_menu() {
+    add_menu_page(
+        'Media Details', // Page title
+        'Media Details', // Menu title
+        'manage_options', // Capability
+        'media-details', // Menu slug
+        'display_media_details_page', // Function
+        'dashicons-admin-media', // Icon
+        20 // Position
+    );
+}
+add_action('admin_menu', 'media_details_menu');
+function display_media_details_page() {
+    ?>
+    <div class="wrap">
+		<div class="dflex">
+			<h1>Media Details</h1>
+			<button id="export_csv">Export CSV</button>
+			<form id="import_csv_form" enctype="multipart/form-data" method="post">
+				<input type="file" name="import_csv" />
+				<input type="submit" name="submit" value="Import CSV" />
+			</form>	
+		</div>
+        
+        <table class="widefat fixed" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Image Name</th>
+                    <th>URL</th>
+                    <th>Alt Tag</th>
+                </tr>
+            </thead>
+			
+            <tbody>
+                <?php
+                $args = array(
+                    'post_type' => 'attachment',
+                    'post_mime_type' => 'image',
+                    'post_status' => 'inherit',
+                    'posts_per_page' => -1,
+                );
+                $media = new WP_Query($args);
+                if ($media->have_posts()) :
+                    while ($media->have_posts()) : $media->the_post();
+                        $image_name = get_the_title();
+                        $image_url = wp_get_attachment_url(get_the_ID());
+                        $alt = get_post_meta(get_the_ID(), '_wp_attachment_image_alt', true);
+                        ?>
+                        <tr>
+                            <td><?php echo esc_html($image_name); ?></td>
+                            <td><a href="<?php echo esc_url($image_url); ?>" target="_blank"><?php echo esc_url($image_url); ?></a></td>
+                            <td><?php echo esc_html($alt); ?></td>
+                        </tr>
+                        <?php
+                    endwhile;
+                    wp_reset_postdata();
+                else :
+                    ?>
+                    <tr>
+                        <td colspan="3">No media found</td>
+                    </tr>
+                <?php
+                endif;
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+}
+function export_media_csv() {
+    if (isset($_GET['export']) && $_GET['export'] == 'true') {
+        $args = array(
+            'post_type' => 'attachment',
+            'post_mime_type' => 'image',
+            'post_status' => 'inherit',
+            'posts_per_page' => -1,
+        );
+        $media = new WP_Query($args);
+        $csv_output = "Image Name,URL,Alt Tag\n";
+        if ($media->have_posts()) :
+            while ($media->have_posts()) : $media->the_post();
+                $image_name = get_the_title();
+                $image_url = wp_get_attachment_url(get_the_ID());
+                $alt = get_post_meta(get_the_ID(), '_wp_attachment_image_alt', true);
+                $csv_output .= '"' . $image_name . '","' . $image_url . '","' . $alt . "\"\n";
+            endwhile;
+            wp_reset_postdata();
+        endif;
+
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=media-details.csv");
+        echo $csv_output;
+        exit;
+    }
+}
+add_action('admin_init', 'export_media_csv');
+function import_media_csv() {
+    if (isset($_POST['submit']) && $_FILES['import_csv']['error'] == 0) {
+        $file = fopen($_FILES['import_csv']['tmp_name'], 'r');
+        while (($line = fgetcsv($file)) !== FALSE) {
+            if ($line[0] == 'Image Name') continue; // Skip header row
+            $image_name = sanitize_text_field($line[0]);
+            $image_url = esc_url($line[1]);
+            $alt = sanitize_text_field($line[2]);
+
+            // Find attachment by URL
+            $attachment_id = attachment_url_to_postid($image_url);
+            if ($attachment_id) {
+                // Update post title
+                wp_update_post(array(
+                    'ID' => $attachment_id,
+                    'post_title' => $image_name,
+                ));
+                // Update alt text
+                update_post_meta($attachment_id, '_wp_attachment_image_alt', $alt);
+            }
+        }
+        fclose($file);
+        wp_redirect(admin_url('admin.php?page=media-details&import=success'));
+        exit;
+    }
+}
+add_action('admin_init', 'import_media_csv');
+
+function custom_admin_js() {
+?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('export_csv').addEventListener('click', function () {
+        window.location.href = "<?php echo admin_url('admin.php?page=media-details&export=true'); ?>";
+    });
+});
+
+</script>
+
+<?php
+	
+}
+add_action('admin_footer', 'custom_admin_js');
