@@ -1,0 +1,61 @@
+/*--------- Breadcrumbs ---------*/
+function get_breadcrumbs() {
+    // Define breadcrumb separator (often '»' or '/')
+    $separator = ' &raquo; ';
+
+    // Get the queried object
+    $queried_object = get_queried_object();
+
+    // Initialize breadcrumbs array
+    $breadcrumbs = array();
+
+    // Add home link to breadcrumbs array
+    $breadcrumbs[] = '<a href="' . home_url() . '">' . __('Home', 'textdomain') . '</a>';
+
+    // Check if on a singular post type (post, page, custom post types)
+    if (is_singular()) {
+        // Get post type object
+        $post_type = get_post_type_object(get_post_type());
+
+        // Add post type archive link to breadcrumbs array
+        if ($post_type->has_archive) {
+            $breadcrumbs[] = '<a href="' . get_post_type_archive_link($post_type->name) . '">' . $post_type->labels->name . '</a>';
+        }
+
+        // Add current post title to breadcrumbs array
+        $breadcrumbs[] = get_the_title();
+
+    } elseif (is_category()) {
+        // Category archive
+        $category = $queried_object;
+        $breadcrumbs[] = single_cat_title('', false);
+
+    } elseif (is_tag()) {
+        // Tag archive
+        $breadcrumbs[] = single_tag_title('', false);
+
+    } elseif (is_tax()) {
+        // Custom taxonomy archive
+        $breadcrumbs[] = single_term_title('', false);
+
+    } elseif (is_archive()) {
+        // Any other archive (like date, author, etc.)
+        $breadcrumbs[] = post_type_archive_title('', false);
+
+    } elseif (is_search()) {
+        // Search results page
+        $breadcrumbs[] = __('Search results for: ', 'textdomain') . get_search_query();
+
+    } elseif (is_404()) {
+        // 404 page
+
+    } else {
+        // Default fallback for other pages
+        $breadcrumbs[] = get_the_title();
+    }
+
+    // Output the breadcrumbs
+    echo implode($separator, $breadcrumbs);
+}
+
+/*--------- Breadcrumbs Ends ---------*/
