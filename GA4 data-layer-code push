@@ -1,0 +1,12 @@
+## Put this code into default confirmation ##
+
+<script>
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+ 'event': 'form_submission', 
+ 'phone_number': '{Phone:3}',
+ 'email_address': '{Email:4}',
+ });
+
+setTimeout(function(){ window.location.href = "https://www.raphaelsbeautyschool.edu/thank-you/"; },500);
+</script>
