@@ -1,16 +1,19 @@
 /*------------------------------------------------ DND Styling -----------------------------------------------------------*/
 
+*, *:after, *:before { box-sizing: inherit; }
+
+html, body, div, span, iframe, pre, a, address, big, cite, em, img, small, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; vertical-align: baseline;
+box-sizing: border-box; }
+
+video, img, form, iframe { max-width: 100%; width: 100%; }
+video, img { object-fit: cover; height: 100%; }
+
 h1, h2, h3, h4, h5, h6, p, blockquote { margin: 0 0 1em;
    &:only-child, &:last-child { margin-bottom: 0; }
 }
 
-@mixin font-weight-utilities($prefix: fw) { @for $i from 1 through 9 {    .#{$prefix}-#{$i * 100} { font-weight: #{$i * 100}; }
-  }
-}
-
+@mixin font-weight-utilities($prefix: fw) { @for $i from 1 through 9 { .#{$prefix}-#{$i * 100} { font-weight: #{$i * 100}; } } }
 @include font-weight-utilities();
-
-
 /*------------------------------------------------ DND Styling -----------------------------------------------------------*/
 
 
@@ -54,12 +57,19 @@ $head_fonts: Arial, sans-serif;
 /*--------------------------------------------------------- Plus Icon Ends --------------------------------------------------*/
 
 /*--------------------------------------------------------- Grid System / Container --------------------------------------------------*/
+
+%mx-auto {
+  margin-left: auto; margin-right: auto;
+  @supports (margin-inline: auto) { margin-left: unset; margin-right: unset; margin-inline: auto; }
+}
+
+ 
 $container_width : clamp(1280px,90.2083333333vw,1732px);
 $gutter_width : 20px;
 
 body:before { content: ""; position: fixed;  inset: 0; pointer-events: none;
-z-index: 9999; opacity: 0.15; max-width: $container_width; width: 100%; margin-inline: auto; display: block; background-image: repeating-linear-gradient( to right, rgba(0, 255, 0, 1) 0, rgba(0, 255, 0, 1) calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12 + $gutter_width) ); }
-.wrapper { max-width: $container_width; margin-inline: auto; width: 100%; }
+z-index: 9999; opacity: 0.15; max-width: $container_width; width: 100%; @extend %mx-auto; display: block; background-image: repeating-linear-gradient( to right, rgba(0, 255, 0, 1) 0, rgba(0, 255, 0, 1) calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12 + $gutter_width) ); }
+.wrapper { max-width: $container_width; @extend %mx-auto; width: 100%; }
 
 /*--------------------------------------------------------- Grid System / Container Ends --------------------------------------------------*/
 
@@ -69,6 +79,58 @@ z-index: 9999; opacity: 0.15; max-width: $container_width; width: 100%; margin-i
 .mb-0 { margin-bottom: 0; }
 .pt-0 { padding-top: 0; }
 .pb-0 { padding-bottom: 0; }
-.mx-auto { margin-inline: auto; }
+.mtb-0 { margin-block: 0; }
+.ptb-0 { padding-block: 0; }
+.mx-auto { @extend %mx-auto; }
 header, footer, aside, section, .c-block { padding: var(--pt, 40px) var(--px, 26px) var(--pb, 40px); }
 /*--------------------------------------------------------- Spacing Ends --------------------------------------------------*/
+
+
+/*--------------------------------------------------------- Form Elements --------------------------------------------------*/
+
+body {
+
+    .gform_footer button { background: transparent; border: none; padding: 0; }
+    .gform_wrapper.gravity-theme .gfield_validation_message, 
+    .gform_wrapper.gravity-theme .validation_message,
+    .gform_wrapper.gravity-theme .gform_validation_errors { display: none; }
+    .gform_wrapper.gravity-theme .gfield_error [aria-invalid=true] { border-width: 0 0 1px; }
+    .gform_wrapper.gravity-theme .gform_footer { padding: 0; margin: 16px 0 0; }
+
+    .gform_wrapper.gravity-theme .gform_fields {
+        --col-gap: 10px; --row-gap: 10px; column-gap: var(--col-gap); row-gap: var(--row-gap); display: flex; flex-wrap: wrap;   
+    }
+
+    .gfield--width-half { max-width: calc( (100% - var(--col-gap) ) / 2); }
+    .gfield { display: block; width: 100%; }
+
+    input, textarea {
+        &:focus { outline: none !important; }
+    }
+
+    .gform_wrapper.gravity-theme input,
+    .gform_wrapper.gravity-theme textarea { font-size: clamp(13px, 0.8333333333vw, 16px) !important; font-family: Helvetica, -apple-system, Arial, sans-serif; color: #000; letter-spacing: 0.48px; border: none; border-bottom: 1px solid rgba(0,0,0,0.5); font-weight: 300;
+
+        &::placeholder { font-size: clamp(13px, 0.8333333333vw, 16px) !important; letter-spacing: 0.48px;
+        }
+    }
+
+    .gform_wrapper.gravity-theme .gfield textarea { 
+        height: 120px; resize: none;
+    }
+}
+/*--------------------------------------------------------- Form Elements Ends --------------------------------------------------*/
+
+/*--------------------------------------------------------- Animatinos --------------------------------------------------*/
+
+@keyframes clipToleft {
+    0% { clip-path: polygon(100% 0, 100% 0%, 100% 100%, 100% 100%); }
+    100% { clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%); }
+}
+
+@keyframes clipToright {
+    0% { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+    100% { clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%); }
+}
+
+/*--------------------------------------------------------- Animatinos Ends --------------------------------------------------*/
