@@ -58,8 +58,8 @@ $container_width : clamp(1280px,90.2083333333vw,1732px);
 $gutter_width : 20px;
 
 body:before { content: ""; position: fixed;  inset: 0; pointer-events: none;
-z-index: 9999; opacity: 0.15; max-width: $container_width; width: 100%; margin: 0 auto; display: block; background-image: repeating-linear-gradient( to right, rgba(0, 255, 0, 1) 0, rgba(0, 255, 0, 1) calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12 + $gutter_width) ); }
-.wrapper { max-width: $container_width; margin: 0 auto; width: 100%; }
+z-index: 9999; opacity: 0.15; max-width: $container_width; width: 100%; margin-inline: auto; display: block; background-image: repeating-linear-gradient( to right, rgba(0, 255, 0, 1) 0, rgba(0, 255, 0, 1) calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12 + $gutter_width) ); }
+.wrapper { max-width: $container_width; margin-inline: auto; width: 100%; }
 
 /*--------------------------------------------------------- Grid System / Container Ends --------------------------------------------------*/
 
