@@ -1,0 +1,39 @@
+
+/*------------------------------------------------ Typography -----------------------------------------------------------*/
+@mixin fluid-font( $min-size, $max-size, $min-vw: 768, $max-vw: 1600 ) {
+  $slope: ($max-size - $min-size) / ($max-vw - $min-vw) * 100; $base: $min-size - ($slope * $min-vw / 100);
+  font-size: var(--fs, clamp( #{$min-size}px, calc(#{$base}px + #{$slope}vw), #{$max-size}px ));
+}
+ 
+$body_fonts: Google Sans, Arial, sans-serif;
+$head_fonts: Arial, sans-serif;
+
+.h1, h1 { @include fluid-font(40, 100); }
+.h2, h2 { @include fluid-font(34, 44); }
+.h3, h3 { @include fluid-font(26, 32); }
+.h4, h4 { @include fluid-font(22, 30); }
+.h5, h5 { @include fluid-font(20, 24 }
+.h6, h6 { @include fluid-font(16, 18, 1024, 1600); }
+
+.ff-body, body, p, li { @include fluid-font(16, 18, 768, 1600); font-family: $body_fonts; }
+.ff-head, .h1, h1, .h2, h2, .h3, h3, .h4, h4, .h5, h5, .h6, h6 { font-family: $head_fonts; }
+
+/*------------------------------------------------Typography Ends -----------------------------------------------------------*/
+
+
+/*-------------------------------------------- Media Query ---------------------------------------------------------------*/
+@mixin minmedia($breakpoint) { @media (min-width: ($breakpoint)) { @content; } }
+@mixin maxmedia($breakpoint) { @media (max-width: ($breakpoint)) { @content; } }
+
+.box { @include minmedia(600px) { background: red; } }
+.box { @include maxmedia(600px) { background: red; } }
+/*--------------------------------------------------- Media Query Ends --------------------------------------------------------*/
+
+
+/*-------------------------------------------------------- Plus Icon ---------------------------------------------------*/
+.c-icn-plus { height: var(--plus-icn-size, 26px); width: var(--plus-icn-size, 26px); position: relative; display: inline-block;
+    &:before, &:after { content: ''; width: 100%; height: var(--plus-icn-thickness, 1px); background-color: var(--plus-icn-color, currentColor); display: block; position: absolute; top: 50%;  }
+    &:after { transform: rotate(90deg); }
+}
+.c-icn-plus--close { transform: rotate(45deg); }
+/*--------------------------------------------------------- Plus Icon Ends --------------------------------------------------*/
