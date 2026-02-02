@@ -1,3 +1,18 @@
+/*------------------------------------------------ DND Styling -----------------------------------------------------------*/
+
+h1, h2, h3, h4, h5, h6, p, blockquote { margin: 0 0 1em;
+   &:only-child, &:last-child { margin-bottom: 0; }
+}
+
+@mixin font-weight-utilities($prefix: fw) { @for $i from 1 through 9 {    .#{$prefix}-#{$i * 100} { font-weight: #{$i * 100}; }
+  }
+}
+
+@include font-weight-utilities();
+
+
+/*------------------------------------------------ DND Styling -----------------------------------------------------------*/
+
 
 /*------------------------------------------------ Typography -----------------------------------------------------------*/
 @mixin fluid-font( $min-size, $max-size, $min-vw: 768, $max-vw: 1600 ) {
@@ -37,3 +52,23 @@ $head_fonts: Arial, sans-serif;
 }
 .c-icn-plus--close { transform: rotate(45deg); }
 /*--------------------------------------------------------- Plus Icon Ends --------------------------------------------------*/
+
+/*--------------------------------------------------------- Grid System / Container --------------------------------------------------*/
+$container_width : clamp(1280px,90.2083333333vw,1732px);
+$gutter_width : 20px;
+
+body:before { content: ""; position: fixed;  inset: 0; pointer-events: none;
+z-index: 9999; opacity: 0.15; max-width: $container_width; width: 100%; margin: 0 auto; display: block; background-image: repeating-linear-gradient( to right, rgba(0, 255, 0, 1) 0, rgba(0, 255, 0, 1) calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12), transparent calc((100% - (11 * $gutter_width)) / 12 + $gutter_width) ); }
+.wrapper { max-width: $container_width; margin: 0 auto; width: 100%; }
+
+/*--------------------------------------------------------- Grid System / Container Ends --------------------------------------------------*/
+
+
+/*--------------------------------------------------------- Spacing --------------------------------------------------*/
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+.pt-0 { padding-top: 0; }
+.pb-0 { padding-bottom: 0; }
+.mx-auto { margin-inline: auto; }
+header, footer, aside, section, .c-block { padding: var(--pt, 40px) var(--px, 26px) var(--pb, 40px); }
+/*--------------------------------------------------------- Spacing Ends --------------------------------------------------*/
