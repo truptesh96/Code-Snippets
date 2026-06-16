@@ -405,8 +405,7 @@ Managed through ACF Options Page.
 ---
 
 ### Content Source Selector
-
-Create a Radio Button field:
+Always mentioned if you think particular ACF flexible row require this kind of functionality. Generally this kind of blocks contains list services, locations etc. But, as mentioned earlier do not assume and clarify if you think for particular section we will require this kind of feature. Create a Radio Button field for the sections where we mention this section should be manage within site options. The user just needt to ACF flexible row to add the row on the page:
 
 ```text
 Content Source
@@ -426,6 +425,7 @@ Site Options
 * Show page-level fields when Page Content is selected.
 
 When Page Content is selected:
+Make sure the content should be managed page level id emprty fields (fallback content should comes from the site options).
 
 ```html
 page-level-content
